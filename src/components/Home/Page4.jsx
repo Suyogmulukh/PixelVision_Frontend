@@ -1,70 +1,81 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "motion/react"
+import { motion } from "motion/react";
 import ImageSlider from "../cards/ImageSlider";
+
+const features = [
+  {
+    title: "Unblur & Sharpener",
+    desc: "Remove any motion blur, camera shake, or focus issues, and make your images and videos look sharp and clear.",
+    delay: 1,
+  },
+  {
+    title: "Old Photos Restorer",
+    desc: "Bring your blurred, faded, and damaged photos back to life, making them clearer and more vibrant than ever before.",
+    delay: 1.2,
+  },
+  {
+    title: "Denoiser",
+    desc: "Clean up every pixel in your photo, eliminating grain and noise to get a clear and sharp image that captures every detail.",
+    delay: 1.3,
+  },
+];
 
 const Page4 = () => {
   const [hasViewed, setHasViewed] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const pagePosition = document.querySelector('.text-white').getBoundingClientRect().top;
-      if (pagePosition < window.innerHeight && !hasViewed) {
+    const onScroll = () => {
+      const section = document.getElementById("page4");
+      if (!section) return;
+
+      const top = section.getBoundingClientRect().top;
+      if (top < window.innerHeight * 0.75) {
         setHasViewed(true);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasViewed]);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <div className=" text-white h-[500px] flex flex-col relative  w-screen bg-gray-300">
-      <motion.div
-        className="bg-black mt-20 h-[400px] w-80 absolute ml-[135px] rounded-3xl hover:bg-gray-800 border-4 border-solid border-gray-600"
-        whileHover={{ scale: 1.05 }}
-        initial={{ opacity: 0, y: 50 }}
-        animate={hasViewed ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 1.3 ,delay: 1}}
-        drag
-        dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-        whileTap={{ scale: 0.95 }}
-        whileDrag={{ scale: 1.1 }}
-      >
-        <h2 className=" absolute mt-[254px] ml-12 font-medium text-2xl">Unblur & Sharpener</h2>
-        <p className="absolute mt-[290px] ml-8 font-light text-gray-400">Remove any motion blur, camera shake, or focus issues, and make your images and videos look sharp and clear.</p>
-      </motion.div>
-      <motion.div
-        className="bg-black mt-20 h-[400px] w-80 absolute ml-[615px] rounded-3xl hover:bg-gray-800 border-4 border-solid border-gray-600"
-        whileHover={{ scale: 1.05 }}
-        initial={{ opacity: 0, y: 50 }}
-        animate={hasViewed ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 1.5, delay: 1.2}}
-        drag
-        dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-        whileTap={{ scale: 0.95 }}
-        whileDrag={{ scale: 1.1 }}
-      >
-        <h2 className=" absolute mt-[254px] ml-12 font-medium text-2xl ">Old Photos Restorer</h2>
-        <p className="absolute mt-[290px] ml-8 font-light text-gray-400 ">Bring your blurred, faded, and damaged photos back to life, making them clearer and more vibrant than ever before.</p>
-      </motion.div>
-      <motion.div
-        className="bg-black mt-20 h-[400px] w-80 absolute ml-[71%] rounded-3xl border-4 border-solid border-gray-700 hover:bg-gray-600"
-        whileHover={{ scale: 1.05 }}
-        initial={{ opacity: 0, y: 50 }}
-        animate={hasViewed ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 1.7, delay: 1.3}}
-        drag
-        dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-        whileTap={{ scale: 0.95 }}
-        whileDrag={{ scale: 1.1 }}
-      >
-        <h2 className=" absolute mt-[254px] ml-12 font-medium text-2xl">Denoiser</h2>
-        <p className="absolute mt-[290px] ml-8 font-light text-gray-400">Clean up every pixel in your photo, eliminating grain and noise to get a clear and sharp image that captures every detail.</p>
-      </motion.div>
-      <div className="flex flex-col md:flex-row items-center justify-center px-6 py-12 absolute ">
-        <ImageSlider/>
+    <section
+      id="page4"
+      className="relative w-full bg-gray-300 text-white py-12 sm:py-24 px-3 sm:px-8 lg:px-16"
+    >
+      {/* FEATURE CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 mb-12 sm:mb-20">
+        {features.map((item, i) => (
+          <motion.div
+            key={i}
+            className="
+               relative bg-black rounded-xl sm:rounded-2xl lg:rounded-3xl border-2 sm:border-4 border-gray-700
+              p-4 sm:p-6 flex flex-col justify-end
+              min-h-[320px] sm:min-h-[280px] lg:min-h-[420px]
+              hover:bg-gray-800
+            "
+            initial={{ opacity: 0, y: 40 }}
+            animate={hasViewed ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, delay: item.delay }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            drag
+            dragConstraints={{ top: -40, bottom: 40, left: -40, right: 40 }}
+          >
+            <h2 className="text-base sm:text-2xl font-medium mb-2 sm:mb-3">
+              {item.title}
+            </h2>
+            <p className="text-xs sm:text-base text-gray-400">{item.desc}</p>
+          </motion.div>
+        ))}
       </div>
-    </div>
+
+      {/* IMAGE SLIDER */}
+      <div className="flex justify-center">
+        <ImageSlider />
+      </div>
+    </section>
   );
-}
+};
+
 export default Page4;

@@ -1,119 +1,124 @@
-import React, { useState, useRef, useEffect } from 'react';
-import '../../App.css';
-import faceenhancer1 from '../../assets/face-enhancer-1-removebg-preview.png';
-import faceenhancer2 from '../../assets/face-enhancer-2-removebg-preview.png'
+import React, { useState, useRef, useEffect } from 'react'
 
 const ImageSlider3 = () => {
-    const sliderRefs = useRef([]);
-    const sliderHandleRefs = useRef([]);
-    const imageAfterRefs = useRef([]);
-    const [isActive, setIsActive] = useState(false);
-    const [activeIndex, setActiveIndex] = useState(null);
+  const sliderRefs = useRef([])
+  const sliderHandleRefs = useRef([])
+  const imageAfterRefs = useRef([])
 
-    const getOffset = (event, index) => {
-        let offsetX;
-        if (event.touches) {
-            offsetX = event.touches[0].clientX - sliderRefs.current[index].getBoundingClientRect().left;
-        } else {
-            offsetX = event.clientX - sliderRefs.current[index].getBoundingClientRect().left;
-        }
-        if (offsetX < 0) offsetX = 0;
-        if (offsetX > sliderRefs.current[index].offsetWidth) offsetX = sliderRefs.current[index].offsetWidth;
-        return offsetX;
-    };
+  const [isActive, setIsActive] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(null)
 
-    const moveSlider = (offsetX, index) => {
-        const sliderWidth = sliderRefs.current[index].offsetWidth;
-        const percentage = (offsetX / sliderWidth) * 100;
-    
-        // Move slider handle
-        sliderHandleRefs.current[index].style.left = `${percentage}%`;
-    
-        // Clip the after image dynamically
-        imageAfterRefs.current[index].style.clipPath = `inset(0 ${sliderWidth - offsetX}px 0 0)`;
-    
-        // Adjust label positions
-        const afterLabel = sliderRefs.current[index].querySelector('.after-label');
-        const beforeLabel = sliderRefs.current[index].querySelector('.before-label');
-    
-        if (afterLabel) afterLabel.style.left = `${offsetX + 10}px`;
-        if (beforeLabel) beforeLabel.style.left = `${offsetX - 80}px`;
-    };
-    
+  const getOffset = (event, index) => {
+    const rect = sliderRefs.current[index].getBoundingClientRect()
+    let offsetX = event.touches
+      ? event.touches[0].clientX - rect.left
+      : event.clientX - rect.left
 
-    const onMouseMove = (event) => {
-        if (!isActive || activeIndex === null) return;
-        const offsetX = getOffset(event, activeIndex);
-        moveSlider(offsetX, activeIndex);
-    };
+    return Math.max(0, Math.min(offsetX, rect.width))
+  }
 
-    useEffect(() => {
-        const handleMouseUp = () => {
-            setIsActive(false);
-            setActiveIndex(null);
-        };
-        const handleMouseMove = (event) => onMouseMove(event);
+  const moveSlider = (offsetX, index) => {
+    const sliderWidth = sliderRefs.current[index].offsetWidth
+    const percentage = (offsetX / sliderWidth) * 100
 
-        document.addEventListener('mouseup', handleMouseUp);
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('touchend', handleMouseUp);
-        document.addEventListener('touchmove', handleMouseMove);
+    sliderHandleRefs.current[index].style.left = `${percentage}%`
+    imageAfterRefs.current[index].style.clipPath = `inset(0 ${sliderWidth - offsetX}px 0 0)`
+  }
 
-        return () => {
-            document.removeEventListener('mouseup', handleMouseUp);
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('touchend', handleMouseUp);
-            document.removeEventListener('touchmove', handleMouseMove);
-        };
-    }, [isActive, activeIndex]);
+  const onMove = (e) => {
+    if (!isActive || activeIndex === null) return
+    moveSlider(getOffset(e, activeIndex), activeIndex)
+  }
 
-    const images = [
-        { before: faceenhancer2, after: faceenhancer1 }
-    ];
+  useEffect(() => {
+    const stop = () => {
+      setIsActive(false)
+      setActiveIndex(null)
+    }
 
-    return (
-        <div className='relative h-screen w-fit'>
-            {images.map((image, index) => (
-                <div
-                    key={index}
-                    ref={el => sliderRefs.current[index] = el}
-                    className="comparison-container h-[650px] w-[600px] overflow-hidden relative mt-8"
-                    onMouseDown={(e) => {
-                        setIsActive(true);
-                        setActiveIndex(index);
-                        onMouseMove(e);
-                    }}
-                    onTouchStart={(e) => {
-                        setIsActive(true);
-                        setActiveIndex(index);
-                        onMouseMove(e);
-                    }}
-                >
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', stop)
+    document.addEventListener('touchmove', onMove)
+    document.addEventListener('touchend', stop)
 
-                    <img
-                        src={image.before}
-                        alt="Before Image"
-                        className="comparison-image--before object-cover object-bottom select-none" 
-                    />
-                    <div
-                        ref={el => imageAfterRefs.current[index] = el}
-                        className="comparison-image--after absolute top-0 left-0 h-full w-full"
-                    >
-                        <img
-                            src={image.after}
-                            alt="After Image"
-                            className="comparison-image--after object-cover object-bottom select-none"
-                        />
-                        <div className="absolute top-4 text-sm bg-black text-white px-3 py-1 rounded-full pointer-events-none select-none before-label">Before</div>
-                    </div>
-                    <div
-                        ref={el => sliderHandleRefs.current[index] = el}
-                        className="slider-handle"
-                    />
-                    <div className="absolute top-4 text-sm bg-black text-white px-3 py-1 rounded-full pointer-events-none select-none after-label">After</div>
-                </div>
-            ))}
+    return () => {
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', stop)
+      document.removeEventListener('touchmove', onMove)
+      document.removeEventListener('touchend', stop)
+    }
+  }, [isActive, activeIndex])
+
+  const images = [{ before: '/face-enhancer-2-removebg-preview.png', after: '/face-enhancer-1-removebg-preview.png' }]
+
+  return (
+    <div className="relative w-full flex justify-center items-center py-10">
+      {images.map((image, index) => (
+        <div
+          key={index}
+          ref={(el) => (sliderRefs.current[index] = el)}
+          className="
+            relative overflow-hidden select-none
+            w-[90vw] sm:w-[80vw] md:w-[600px]
+            h-[55vh] sm:h-[60vh] md:h-[650px]
+            rounded-xl shadow-lg
+          "
+          onMouseDown={(e) => {
+            setIsActive(true)
+            setActiveIndex(index)
+            onMove(e)
+          }}
+          onTouchStart={(e) => {
+            setIsActive(true)
+            setActiveIndex(index)
+            onMove(e)
+          }}
+        >
+          {/* BEFORE */}
+          <img
+            src={image.before}
+            alt="Before"
+            className="absolute inset-0 h-full w-full object-cover object-bottom"
+          />
+
+          {/* AFTER */}
+          <div
+            ref={(el) => (imageAfterRefs.current[index] = el)}
+            className="absolute inset-0 h-full w-full"
+            style={{ clipPath: 'inset(0 50% 0 0)' }}
+          >
+            <img
+              src={image.after}
+              alt="After"
+              className="h-full w-full object-cover object-bottom"
+            />
+          </div>
+
+          {/* SLIDER HANDLE */}
+          <div
+            ref={(el) => (sliderHandleRefs.current[index] = el)}
+            className="
+              absolute top-0 bottom-0 left-1/2
+              w-1 bg-white/80
+              cursor-ew-resize
+              after:content-['']
+              after:absolute after:-left-3 after:top-1/2
+              after:h-6 after:w-6 after:-translate-y-1/2
+              after:rounded-full after:bg-black
+            "
+          />
+
+          {/* LABELS */}
+          <span className="absolute top-4 left-4 text-xs sm:text-sm bg-black text-white px-3 py-1 rounded-full">
+            Before
+          </span>
+          <span className="absolute top-4 right-4 text-xs sm:text-sm bg-black text-white px-3 py-1 rounded-full">
+            After
+          </span>
         </div>
-    );
+      ))}
+    </div>
+  )
 }
-export default ImageSlider3;
+
+export default ImageSlider3

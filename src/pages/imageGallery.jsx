@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import ImageDropzone from "../components/cards/ImageDropzone";
 import ImagePreview from "../components/cards/ImagePreview";
 import { enhancedImageAPI } from "../utils/imageEnhancesApi";
-import Logo from "../assets/logo.svg";
 
 const ImageGallery = () => {
     const [uploadImage, setUploadImage] = useState(null);
@@ -48,7 +47,7 @@ const ImageGallery = () => {
         <div className="min-h-screen bg-gradient-to-r from-black to-pink-900 text-white py-8">
             <div className="max-w-6xl mx-auto px-4">
                 <div className="flex flex-col items-center justify-center gap-8">
-                    <img src={Logo} alt="Pixel Vision Logo" className="w-48 absolute left-0 ml-9 top-0 mt-5" />
+                    <img src={'/logo.svg'} alt="Pixel Vision Logo" className="w-48 absolute left-0 ml-9 top-0 mt-5" />
                     <div className="w-full max-w-4xl bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-lg p-8 mt-10">
                         <ImageDropzone 
                             onFileChange={handleFileChange}

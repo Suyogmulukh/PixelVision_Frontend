@@ -2,59 +2,146 @@ import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 
 const Pages5 = () => {
-  const dropDownRef = useRef(null); // Ref for drop-down text
-  const textRefs = useRef([]); // Refs for all text elements
+  const dropDownRef = useRef(null);
+  const textRefs = useRef([]);
 
   return (
-    <div className="bg-cyan-50 text-white h-screen flex items-center justify-center p-8 ">
-      <h3 className='text-gray-500 text-xl font-[anzo] ml-12 absolute mb-[40%]'>
-        Ⓒsuyog & sahil | designed and developed
+    <section className="bg-cyan-50 w-full py-12 sm:py-24 px-4 sm:px-8 lg:px-16">
+      {/* Footer note */}
+      <h3
+        className="
+        text-gray-500 text-xs sm:text-sm lg:text-xl
+        font-[anzo]
+        text-center mb-8 sm:mb-12
+      "
+      >
+        Ⓒ suyog | designed and developed
       </h3>
-      <div className="max-w-5xl flex flex-col md:flex-row items-center gap-28 ml-24">
-        {/* AI Generated Image Stack */}
-        <div className="relative w-72 h-96">
+
+      <div
+        className="
+        max-w-3xl mx-auto
+        flex flex-col lg:flex-row
+        items-center
+        gap-8 sm:gap-16 lg:gap-36 lg:mt-20
+      "
+      >
+        {/* IMAGE STACK */}
+        <div className="relative w-[160px] h-[260px] sm:w-[300px] sm:h-[420px] flex-shrink-0">
           <div
-            className="relative w-64 h-96 bg-gray-700 rounded-2xl rotate-[-20deg] top-28 right-40 shadow-xl 
-            bg-[url(https://i.pinimg.com/564x/cf/2f/15/cf2f15be9a1d91f3cd7191614512ba61.jpg)] bg-cover bg-right"
+            className="
+              absolute w-full h-full
+              rounded-xl rotate-[-35deg]
+              -top-1 -left-10
+              shadow-xl bg-cover bg-right
+            "
+            style={{
+              backgroundImage:
+                "url(https://i.pinimg.com/564x/cf/2f/15/cf2f15be9a1d91f3cd7191614512ba61.jpg)",
+            }}
           >
-            <span className="absolute text-xs font-serif font-bold top-[360px] text-gray-800 ml-20">AI GENERATED</span>
+            <span className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs font-bold text-gray-800">
+              AI GENERATED
+            </span>
           </div>
+
           <div
-            className="absolute w-64 h-96 bg-gray-600 rounded-3xl rotate-[-8deg] top-16 right-24 shadow-xl
-            bg-[url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5QPOdq4i_keODQ-_xCC3Am5A9zFfOpTeI-A&s)] bg-cover"
+            className="
+              absolute w-full h-full
+              rounded-xl rotate-[-16deg]
+              -top-2 left-1
+              shadow-xl bg-cover
+            "
+            style={{
+              backgroundImage:
+                "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5QPOdq4i_keODQ-_xCC3Am5A9zFfOpTeI-A&s)",
+            }}
           >
-            <span className="absolute text-xs font-serif font-bold top-[362px] text-gray-800 ml-[97px]">AI GENERATED</span>
+            <span className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs font-bold text-gray-800">
+              AI GENERATED
+            </span>
           </div>
+
           <div
-            className="absolute w-64 h-96 bg-gray-500 rounded-3xl rotate-[4deg] top-8 left-12 shadow-xl flex items-center justify-center
-            bg-[url(https://images.unsplash.com/photo-1529778873920-4da4926a72c2?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y3V0ZSUyMGNhdHxlbnwwfHwwfHx8MA%3D%3D)] bg-cover bg-center"
+            className="
+              absolute w-full h-full
+              rounded-xl rotate-[14deg]
+              top-6 left-12
+              shadow-xl bg-cover bg-center
+            "
+            style={{
+              backgroundImage:
+                "url(https://images.unsplash.com/photo-1529778873920-4da4926a72c2?fm=jpg&q=60&w=3000)",
+            }}
           >
-            <span className="absolute text-xs font-serif font-bold top-[360px] text-gray-800">AI GENERATED</span>
+            <span className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs font-bold text-gray-800">
+              AI GENERATED
+            </span>
           </div>
         </div>
-        
-        {/* Text Content */}
-        <div className="text-center md:text-left">
-          <span ref={el => textRefs.current[0] = el} className="bg-red-500 text-white font-semibold text-sm px-3 py-1 rounded-full uppercase tracking-wider">New</span>
-          <span ref={el => textRefs.current[1] = el} className=" text-purple-700 font-semibold text-sm px-3 py-1 rounded-full uppercase tracking-wider ml-4">AI PHOTOS</span>
-          <h1 ref={el => textRefs.current[2] = el} className="text-5xl font-semibold mt-4 text-gray-700">Generate <br/>photos of<br/> yourself, with AI</h1>
-          <p ref={el => textRefs.current[3] = el} className="text-gray-700 mt-14 max-w-md font-semibold">
-            Get professional-quality photos of yourself with stunning realism, with the help of AI.
+
+        {/* TEXT CONTENT */}
+        <div className="text-center lg:text-left max-w-lg px-2">
+          <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-3 flex-wrap">
+            <span
+              ref={(el) => (textRefs.current[0] = el)}
+              className="bg-red-500 text-white font-semibold text-xs px-3 py-1 rounded-full uppercase"
+            >
+              New
+            </span>
+            <span
+              ref={(el) => (textRefs.current[1] = el)}
+              className="text-purple-700 font-semibold text-xs px-3 py-1 rounded-full uppercase"
+            >
+              AI Photos
+            </span>
+          </div>
+
+          <h1
+            ref={(el) => (textRefs.current[2] = el)}
+            className="
+              mt-4 sm:mt-6
+              text-2xl sm:text-4xl lg:text-5xl
+              font-semibold text-gray-700
+              leading-tight
+            "
+          >
+            Generate photos <br /> of yourself, <br /> with AI
+          </h1>
+
+          <p
+            ref={(el) => (textRefs.current[3] = el)}
+            className="text-gray-700 mt-4 sm:mt-8 text-xs sm:text-base font-semibold leading-relaxed"
+          >
+            Get professional-quality photos of yourself with stunning realism,
+            powered by AI.
           </p>
-          {/* Drop-down Text */}
-          <div ref={dropDownRef} className="mt-3 text-gray-700 font-semibold">
+
+          <div
+            ref={dropDownRef}
+            className="mt-2 sm:mt-3 text-gray-600 text-xs sm:text-base"
+          >
             Experience the future of photography with AI-generated images.
           </div>
-        
-          {/* Button */}
-          <Link to={"/user-login"} className="mt-14 px-6 py-3 w-56 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md flex items-center gap-2">
-            Discover AI Photos
-            <span>&#x2192;</span>
+
+          <Link
+            to="/user-login"
+            className="
+              mt-6 sm:mt-10 inline-flex items-center gap-2
+              px-4 sm:px-6 py-2 sm:py-3
+              bg-gray-800 hover:bg-gray-700
+              text-white font-semibold
+              text-xs sm:text-base
+              rounded-lg shadow-md
+              transition
+            "
+          >
+            Discover AI Photos →
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
-}
+};
 
 export default Pages5;

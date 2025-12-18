@@ -1,11 +1,22 @@
 import React from "react";
 
 const Loading = () => {
-    return (
-        <div className="flex justify-center items-center h-full">
-            <div className="animate-spin border-4 border-t-transparent w-10 h-10 scale-200 rounded-full border-red-300"></div>
-        </div>
-    );
+  return (
+    <div className="flex items-center justify-center w-full h-full py-6">
+      <div
+        className="
+          animate-spin
+          rounded-full
+          border-4
+          border-red-300 border-t-transparent
+          w-6 h-6
+          sm:w-8 sm:h-8
+          md:w-10 md:h-10
+        "
+        aria-label="Loading"
+      />
+    </div>
+  );
 };
 
 export default Loading;

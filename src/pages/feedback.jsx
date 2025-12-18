@@ -1,117 +1,134 @@
 // Beatflow-frontend/src/components/FeedbackForm.jsx
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useCallback, memo } from "react";
+import axios from "axios";
+
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3500";
 
 const FeedbackForm = ({ userId }) => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [rating, setRating] = useState(5);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('http://localhost:3500/api/feedback/submit', { userId, message, rating });
-      alert('Thanks for your feedback!');
-      setMessage('');
-      setRating(5);
-    } catch (err) {
-      console.error(err);
-      alert('Error sending feedback');
-    }
-  };
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        await axios.post(`${API_BASE}/api/feedback/submit`, {
+          userId,
+          message,
+          rating,
+        });
+        alert("Thanks for your feedback!");
+        setMessage("");
+        setRating(5);
+      } catch (err) {
+        console.error(err);
+        alert("Error sending feedback");
+      }
+    },
+    [userId, message, rating]
+  );
 
   return (
-    <>
+    <div className="px-4 sm:px-6 lg:px-0">
+      {/* Back Button */}
       <button
         type="button"
         onClick={() => window.history.back()}
-        style={{
-          margin: '2rem auto 1rem auto',
-          display: 'block',
-          backgroundColor: '#e5e7eb',
-          color: '#333',
-          padding: '8px 18px',
-          border: 'none',
-          borderRadius: '6px',
-          fontSize: '1rem',
-          fontWeight: 'bold',
-          cursor: 'pointer',
-          boxShadow: '0 2px 6px rgba(0,0,0,0.07)'
-        }}
+        className="
+          block mx-auto mt-8 mb-4
+          bg-gray-200 text-gray-800
+          px-5 py-2
+          rounded-md font-bold
+          shadow-md
+          hover:bg-gray-300
+          transition
+        "
       >
-        &#8592; Back
+        ← Back
       </button>
+
+      {/* Form */}
       <form
         onSubmit={handleSubmit}
-        style={{
-          padding: '1.5rem',
-          maxWidth: '500px',
-          margin: '2rem auto',
-          borderRadius: '12px',
-          backgroundColor: '#f9f9f9',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          fontFamily: 'Arial, sans-serif'
-        }}
+        className="
+          w-full max-w-md
+          mx-auto mt-8
+          p-6
+          bg-gray-50
+          rounded-xl
+          shadow-lg
+        "
       >
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#333' }}>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
           Send Us Feedback
         </h2>
 
+        {/* Message */}
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Your feedback..."
           required
           rows={4}
-          style={{
-            width: '100%',
-            padding: '10px',
-            fontSize: '1rem',
-            borderRadius: '8px',
-            border: '1px solid #ccc',
-            marginBottom: '1rem',
-            resize: 'vertical'
-          }}
+          className="
+            w-full
+            p-3
+            text-base
+            border border-gray-300
+            rounded-lg
+            resize-y
+            focus:outline-none
+            focus:ring-2
+            focus:ring-indigo-500
+            mb-4
+          "
         />
 
-        <div style={{ marginBottom: '1.2rem' }}>
-          <label style={{ marginRight: '0.5rem', fontWeight: 'bold' }}>Rating:</label>
+        {/* Rating */}
+        <div className="flex flex-wrap items-center gap-3 mb-5">
+          <label className="font-bold text-gray-700">
+            Rating:
+          </label>
+
           <select
             value={rating}
             onChange={(e) => setRating(Number(e.target.value))}
-            style={{
-              padding: '8px 12px',
-              borderRadius: '6px',
-              border: '1px solid #ccc',
-              fontSize: '1rem'
-            }}
+            className="
+              px-4 py-2
+              border border-gray-300
+              rounded-md
+              text-base
+              focus:outline-none
+              focus:ring-2
+              focus:ring-indigo-500
+            "
           >
             {[1, 2, 3, 4, 5].map((r) => (
-              <option key={r} value={r}>{r}</option>
+              <option key={r} value={r}>
+                {r}
+              </option>
             ))}
           </select>
         </div>
 
+        {/* Submit */}
         <button
           type="submit"
-          style={{
-            backgroundColor: '#4f46e5',
-            color: 'white',
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '1rem',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s ease'
-          }}
-          onMouseOver={(e) => e.target.style.backgroundColor = '#4338ca'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '#4f46e5'}
+          className="
+            w-full
+            bg-indigo-600 text-white
+            py-2.5
+            rounded-md
+            font-bold
+            hover:bg-indigo-700
+            transition
+          "
         >
           Submit
         </button>
       </form>
-    </>
+    </div>
   );
 };
 
-export default FeedbackForm;
+export default memo(FeedbackForm);

@@ -30,19 +30,19 @@
 
 @font-face {
   font-family: anzo1;
-  src: url(./assets/file1.woff2);
+  src: url(../public/file1.woff2);
 }
 @font-face {
   font-family: anzo2;
-  src: url(./assets/file2.woff2);
+  src: url(../public/file2.woff2);
 }
 @font-face {
   font-family: anzo3;
-  src: url(./assets/file3.woff2);
+  src: url(../public/file3.woff2);
 }
 @font-face {
   font-family: anzo;
-  src: url(./assets/file.woff2);
+  src: url(../public/file.woff2);
 }
 
 *{
