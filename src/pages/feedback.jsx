@@ -86,9 +86,7 @@ const FeedbackForm = ({ userId }) => {
 
         {/* Rating */}
         <div className="flex flex-wrap items-center gap-3 mb-5">
-          <label className="font-bold text-gray-700">
-            Rating:
-          </label>
+          <label className="font-bold text-gray-700">Rating:</label>
 
           <select
             value={rating}
@@ -130,5 +128,3 @@ const FeedbackForm = ({ userId }) => {
     </div>
   );
 };
-
-export default memo(FeedbackForm);

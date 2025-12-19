@@ -37,8 +37,10 @@ const UserLogin = () => {
 
     setIsLoading(true);
     try {
+      // Use environment variable for backend URL
+      const apiUrl = import.meta.env.VITE_API_URL;
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/users/login`,
+        `${apiUrl}/users/login`,
         { email, password },
         { withCredentials: true }
       );
