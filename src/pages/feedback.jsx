@@ -128,3 +128,4 @@ const FeedbackForm = ({ userId }) => {
     </div>
   );
 };
+export default FeedbackForm;
